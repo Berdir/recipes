@@ -1,24 +1,131 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+	<title>Drupal Recipes</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/solarized.css">
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<style>
+		.smaller {
+			font-size: 30px;
+		}
+		.hljs-comment {
+			color: lightskyblue;
+		}
+
+		.reveal .slides {
+			height: 100%;
+			top: auto;
+		}
+
+		.reveal .slides>section {
+			min-height: 90%;
+			vertical-align: center;
+		}
+
+		.reveal .slides>section>section {
+			min-height: 100%;
+		}
+
+		li {
+			margin-bottom: .5rem;
+		}
+		.black-text {
+			color: black !important;
+			--r-heading-color: black;
+
+			a {
+				--r-link-color-hover: black;
+				--r-link-color: black;
+				text-decoration: underline
+			}
+		}
+
+		.image-copyright {
+			display: block;
+			position: fixed;
+			bottom: 18px;
+			width: 100%;
+			margin: 0 -20px;
+			text-align: right;
+			font-size: 18px;
+			z-index: 2;
+		}
+
+		.align-left {
+			text-align: left;
+		}
+	</style>
+</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
+				<section class="black-text align-left" data-background-image="images/pexels-enginakyurt-1435894.jpg" data-background-opacity=".4"><h1>Drupal Recipes</h1><p><a href="https://berdir.github.io/recipes/">berdir.github.io/recipes/</a></p><div class="image-copyright absolute">Picture by Engin Akyurt: https://www.pexels.com/photo/assorted-spices-on-black-cooking-pan-1435894/</div></section>
+				<section>
+					<h2>About me</h2>
+					<ul>
+						<li>Sascha Grossenbacher</li>
+						<li>MD Systems</li>
+						<li>https://drupal.org/u/berdir</li>
+						<li>Entity system maintainer</li>
+						<li>Contrib maintainer: TMGMT, Paragraphs, Token, Pathauto, Redirect, ...</li>
+						<li>Contributing to Drupal since ~16 years</li>
+					</ul>
+				</section>
+				<section><h2>Topics</h2>
+					<ul>
+						<li>Recipe initiative</li>
+						<li>Abilities of recipes: Dependencies, Configuration, Config Actions, Default Content</li>
+						<li>Limitations of Recipes</li>
+						<li>How to use recipes</li>
+						<li>Quick overview of recipes currently included in Drupal CMS</li>
+						<li>How Paragraphs plans to use recipes</li>
+					</ul>
+				</section>
+
+				<section>
+					<section><h2 class="r-fit-text">Recipe initiative</h2></section>
+					<section>
+						<h3>The problem: Distributions</h3>
+						<ul>
+							<li>Difficult to update, 100% dependant</li>
+							<li>Can not be added to existing projects</li>
+							<li>Can't be removed (easily)</li>
+							<li>Can't be mixed and matched</li>
+						</ul>
+						<p></p>
+					</section>
+					<section>
+						<h3>Summary</h3>
+						<ul>
+							<li>Replacement for Distributions/Install profiles</li>
+							<li>Instructions on how to configure a Drupal site</li>
+							<li>No lifecycle: Recipes are <em>applied</em>, not installed</li>
+							<li>Declarative, not functional: YAML, not PHP</li>
+						</ul>
+						<p></p>
+					</section>
+				</section>
+
+				<section>
+					<section><h2 class="r-fit-text">Abilities</h2></section>
+					<section>
+						<h3>Dependencies</h3>
+						<ul>
+							<li>Recipes can depend on modules and other recipes</li>
+							<li>Limited discovery: Same folder + core, no "subrecipes"</li>
+						</ul>
+						<p></p>
+					</section>
+				</section>
+
 		</div>
 
 		<script src="dist/reveal.js"></script>
@@ -31,6 +138,7 @@
 			// - https://revealjs.com/config/
 			Reveal.initialize({
 				hash: true,
+				center:false,
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
