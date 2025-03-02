@@ -81,10 +81,11 @@
 				</section>
 				<section><h2>Topics</h2>
 					<ul>
-						<li>Recipe initiative</li>
+						<li>Recipe initiative Overview</li>
 						<li>Abilities of recipes: Dependencies, Configuration, Config Actions, Default Content</li>
-						<li>Limitations of Recipes</li>
-						<li>How to use recipes</li>
+						<li>Using recipes</li>
+						<li>Creating recipes</li>
+						<li>Limitations, Caveats, Learnings</li>
 						<li>Quick overview of recipes currently included in Drupal CMS</li>
 						<li>How Paragraphs plans to use recipes</li>
 					</ul>
@@ -112,6 +113,9 @@
 						</ul>
 						<p></p>
 					</section>
+					<section>
+						<h3>No lifecycle</h3>
+					</section>
 				</section>
 
 				<section>
@@ -123,6 +127,47 @@
 							<li>Limited discovery: Same folder + core, no "subrecipes"</li>
 						</ul>
 						<p></p>
+					</section>
+					<section>
+						<h3>Recipe configuration</h3>
+						<p>Essentially like a module, a recipe can provide any number of configuration entities.</p>
+					</section>
+					<section>
+						<h3>Recipe content</h3>
+						<p>Based on the format and API of the default_content project.</p>
+						<p>Any Content entity can be exported into a YAML format.</p>
+						<p>Use cases: Example content for distributions, Initial content for custom projects</p>
+						<p>Note: Exporter is not yet in core, use default_content drush commands</p>
+					</section>
+					<section>
+						<h3>Config actions</h3>
+						<p>Making changes to existing configuration</p>
+						<p>Add components to form/view displays, enable content moderation, add to text formats</p>
+					</section>
+				</section>
+
+				<section>
+					<section><h2 class="r-fit-text">Limitations, Caveats, Learnings</h2></section>
+					<section>
+						<h3>No installed state</h3>
+						<p>Drupal doesn't know if you've already applied a recipe or not.</p>
+						<p>That also applies to recipes it depends on. Every time a recipe is applied, all recipes it depends on are applied again.</p>
+					</section>
+					<section>
+						<h3>Strict mode</h3>
+						<p>In strict module, a recipe can only be enabled if the configuration it provides does not exist yet or is an exact match.</p>
+						<p>Currently enabled by default: <a href="https://www.drupal.org/project/drupal/issues/3478669">drupal.org/i/3478699</a>.</p>
+						<p>Challenges: Dependencies, Config additions in core (re-apply tests, redirect).</p>
+					</section>
+					<section>
+						<h3>Modules default configuration</h3>
+						<p>Behaves like config deployment, modules installed only with simple config</p>
+						<p>examples: mixed with strict, required config, umami/paragraphs_demo</p>
+					</section>
+					<section>
+						<h3>No optional/conditional configuration</h3>
+						<p>Modules have an optional config folder, that is only installed if all dependencies are met. Recipes don't.</p>
+						<p>Use case: Multilingual, ship content settings if site is multilingual</p>
 					</section>
 				</section>
 
