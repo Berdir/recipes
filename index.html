@@ -62,12 +62,17 @@
 		.align-left {
 			text-align: left;
 		}
+
+		.align-left {
+			display: flex;
+			justify-content: flex-end;
+		}
 	</style>
 </head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section class="black-text align-left" data-background-image="images/pexels-enginakyurt-1435894.jpg" data-background-opacity=".4"><h1>Drupal Recipes</h1><p><a href="https://berdir.github.io/recipes/">berdir.github.io/recipes/</a></p><div class="image-copyright absolute">Picture by Engin Akyurt: https://www.pexels.com/photo/assorted-spices-on-black-cooking-pan-1435894/</div></section>
+				<section class="black-text" data-background-image="images/pexels-enginakyurt-1435894.jpg" data-background-opacity=".4"><h1>Drupal Recipes</h1><p><a href="https://berdir.github.io/recipes/">berdir.github.io/recipes/</a></p><div class="image-copyright absolute">Picture by Engin Akyurt: https://www.pexels.com/photo/assorted-spices-on-black-cooking-pan-1435894/</div></section>
 				<section>
 					<h2>About me</h2>
 					<ul>
@@ -92,7 +97,14 @@
 				</section>
 
 				<section>
-					<section><h2 class="r-fit-text">Recipe initiative</h2></section>
+					<h2>Ressources</h2>
+					<ul>
+						<li><a href="https://git.drupalcode.org/project/distributions_recipes/-/tree/1.0.x/docs">project/distribution_recipes docs</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<section class="black-text align-right" data-background-image="images/pexels-isaiah-56332-833109.jpg" data-background-opacity=".4"><h2>Recipe initiative</h2><div class="image-copyright absolute">Photo by Isaiah : https://www.pexels.com/photo/weisses-und-graues-chevron-druckrezeptbuch-833109/</div></section>
 					<section>
 						<h3>The problem: Distributions</h3>
 						<ul>
@@ -110,6 +122,7 @@
 							<li>Instructions on how to configure a Drupal site</li>
 							<li>No lifecycle: Recipes are <em>applied</em>, not installed</li>
 							<li>Declarative, not functional: YAML, not PHP</li>
+							<li>Still experimental/work in progress</li>
 						</ul>
 						<p></p>
 					</section>
@@ -119,12 +132,12 @@
 				</section>
 
 				<section>
-					<section><h2 class="r-fit-text">Abilities</h2></section>
+					<section class="black-text align-left" data-background-image="images/pexels-fecundap6-350417.jpg" data-background-opacity=".4"><h2>Abilities of recipes</h2><div class="image-copyright absolute">Photo by Aphiwat  chuangchoem: https://www.pexels.com/photo/schopfloffel-lot-in-verschiedenen-farben-350417/</div></section>
 					<section>
 						<h3>Dependencies</h3>
 						<ul>
 							<li>Recipes can depend on modules and other recipes</li>
-							<li>Limited discovery: Same folder + core, no "subrecipes"</li>
+							<li>Limited discovery: Same folder + core for recipes, no "subrecipes"</li>
 						</ul>
 						<p></p>
 					</section>
@@ -142,12 +155,155 @@
 					<section>
 						<h3>Config actions</h3>
 						<p>Making changes to existing configuration</p>
-						<p>Add components to form/view displays, enable content moderation, add to text formats</p>
+						<p>Examples: Add components to form/view displays, enable content moderation, add to text formats</p>
+						<p>This is the replacement to hook_install() in modules</p>
+					</section>
+					<section>
+						<h3>Inputs</h3>
+						<p>Recipes can define required input and use it within the Recipe</p>
+						<p>Example: The Google Analytics Drupal CMS recipe requires a Google Tag ID</p>
 					</section>
 				</section>
 
 				<section>
-					<section><h2 class="r-fit-text">Limitations, Caveats, Learnings</h2></section>
+					<section class="black-text align-left" data-background-image="images/pexels-conojeghuo-175754.jpg" data-background-opacity=".4"><h2>Using recipes</h2><div class="image-copyright absolute">Photo by Clem Onojeghuo: https://www.pexels.com/photo/auf-wok-sautiertes-gemuse-175754/</div></section>
+					<section>
+						<h3>Add a recipe to your site</h3>
+						<p>Recipes are stored in a new top-level /recipe folder, typically outside of the web root</p>
+						<pre><code>composer require drupal/drupal_cms_page</code></pre>
+						<p>Note: For existing sites, make sure you use latest composer/installers / update your composer.json config from the recommended template</p>
+					</section>
+					<section>
+						<h3>Apply a recipe using CLI</h3>
+						<p>Drupal core (must run this inside web root)</p>
+						<pre><code>php core/scripts/drupal recipe  ../recipes/drupal_cms_page</code></pre>
+						<p>Drush 13 (works everywhere)</p>
+						<pre><code>drush recipe ../recipes/drupal_cms_page</code></pre>
+					</section>
+					<section>
+						<h3>Using Project Browser</h3>
+						<p>Experimental, Drupal Core Initative</p>
+						<img src="images/project_browser_recipe.png" alt="Screenshot of project browser UI" >
+					</section>
+				</section>
+
+				<section>
+					<section class="black-text align-left" data-background-image="images/pexels-katya-wolf-8715627.jpg" data-background-opacity=".4"><h2>Creating recipes</h2><div class="image-copyright absolute">Photo by Katya Wolf: https://www.pexels.com/photo/woman-writing-greeting-cards-8715627/</div></section>
+					<section>
+						<h3>To distribute a recipe: composer.json</h3>
+						<pre><code class="language-json" data-line-numbers="2|4|6-8" data-trim>
+							{
+									"name": "drupal/drupal_cms_page",
+									"description": "Adds a content type for simple pages.",
+									"type": "drupal-recipe",
+									"license": ["GPL-2.0-or-later"],
+									"require": {
+											"drupal/core": ">=10.4",
+											"drupal/drupal_cms_content_type_base": "~1.0.2"
+									},
+									"version": "1.0.2"
+							}
+						</code></pre>
+					</section>
+					<section>
+						<h3>recipe.yml (basics)</h3>
+						<pre><code class="language-yaml" data-line-numbers="1-3|4-5|6-8|9-11" data-trim>
+							# Human readable name & description
+							name: Basic page
+							description: Adds a content type for simple pages.
+							# Group/Package of the recipe
+							type: Drupal CMS
+							# Apply other recipes first
+							recipes:
+								- drupal_cms_content_type_base
+							# Install modules & themes
+							install:
+  							- menu_link_content
+						</code></pre>
+					</section>
+					<section>
+						<h3>recipe.yml (strict)</h3>
+						<pre><code class="language-yaml" data-line-numbers="2-3|4-5|6-8" data-trim>
+							config:
+							  # Fail if config exists and does not match (default)
+								strict: true
+							  # Do not fail if config exists and does not match
+								strict: false
+							  # Only fail on specific config entities
+							  strict:
+							    - field.storage.body
+						</code></pre>
+					</section>
+					<section>
+						<h3>recipe.yml (config install)</h3>
+						<pre><code class="language-yaml" data-line-numbers="2|3-5|6" data-trim>
+							config:
+							  # By default, only simple config of modules is installed
+								import:
+							    node:
+							      - node.type.page
+							    menu_ink_content: *
+
+						</code></pre>
+					</section>
+					<section>
+						<h3>recipe.yml (config actions)</h3>
+						<pre><code class="language-yaml" data-line-numbers="2|3|4|5-8|9-10|11-13" data-trim>
+							config:
+							  actions:
+									user.role.content_editor:
+										grantPermissions:
+											- 'create person content'
+											- 'delete person revisions'
+											- 'delete any person content'
+											- 'edit any person content'
+									workflows.workflow.basic_editorial:
+										addNodeTypes: ['person']
+									scheduler.settings:
+										simpleConfigUpdate:
+											hide_seconds: true
+						</code></pre>
+					</section>
+					<section>
+						<h3>Recipe config</h3>
+						<p>Just like modules, export and put the config in the config/ folder.</p>
+
+						<pre><code data-trim>
+							core.entity_form_display.node.page.default.yml
+							core.entity_view_display.node.page.card.yml
+							core.entity_view_display.node.page.default.yml
+							core.entity_view_display.node.page.teaser.yml
+							field.field.node.page.field_content.yml
+							field.field.node.page.field_description.yml
+							field.field.node.page.field_featured_image.yml
+							field.field.node.page.field_tags.yml
+							field.field.node.page.layout_builder__layout.yml
+							node.type.page.yml
+							pathauto.pattern.page_content.yml
+						</code></pre>
+
+					</section>
+					<section>
+						<h3>Default content</h3>
+						<p>Export with drush commands from the default_content project</p>
+						<pre><code class="language-bash" data-trim data-line-numbers="1|2-4|5-6">
+							$ ddev drush dcer --folder=../recipes/my_recipe/content node 4
+							node/ce429bd2-2a91-48cf-9890-8b7bea56de52.yml
+							media/9f589217-c3bd-41eb-a0b5-7e8b6cd0e80b.yml
+							taxonomy_term/d48adeba-e388-4e82-820b-98bbd2f35a46.yml
+							file/DrupalCon-Barcelona-2024 - credit-Bram-Driesen.jpg
+							file/4bb02092-717b-44c8-9147-be3821c244c6.yml
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section class="black-text align-left" data-background-image="images/pexels-karolina-grabowska-6659864.jpg"
+									 data-background-opacity=".4"><h2>Limitations, Caveats, Learnings</h2>
+						<p>(may contain personal opinions)</p>
+						<div class="image-copyright absolute">Photo By: Kaboompics.com: https://www.pexels.com/photo/a-close-up-photo-of-a-person-slicing-a-banana-6659864/
+						</div>
+					</section>
+
 					<section>
 						<h3>No installed state</h3>
 						<p>Drupal doesn't know if you've already applied a recipe or not.</p>
