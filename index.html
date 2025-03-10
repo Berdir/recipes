@@ -86,25 +86,26 @@
 				</section>
 				<section><h2>Topics</h2>
 					<ul>
-						<li>Recipe initiative Overview</li>
-						<li>Abilities of recipes: Dependencies, Configuration, Config Actions, Default Content</li>
+						<li>Overview</li>
+						<li>Abilities of recipes</li>
 						<li>Using recipes</li>
 						<li>Creating recipes</li>
 						<li>Limitations, Caveats, Learnings</li>
-						<li>Quick overview of recipes currently included in Drupal CMS</li>
+						<li>Drupal CMS & recipes</li>
 						<li>How Paragraphs plans to use recipes</li>
 					</ul>
 				</section>
 
 				<section>
-					<h2>Ressources</h2>
+					<h2>Resources</h2>
 					<ul>
 						<li><a href="https://git.drupalcode.org/project/distributions_recipes/-/tree/1.0.x/docs">project/distribution_recipes docs</a></li>
+						<li><a href="https://git.drupalcode.org/project/drupal_cms">drupal_cms code repository</a></li>
 					</ul>
 				</section>
 
 				<section>
-					<section class="black-text align-right" data-background-image="images/pexels-isaiah-56332-833109.jpg" data-background-opacity=".4"><h2>Recipe initiative</h2><div class="image-copyright absolute">Photo by Isaiah : https://www.pexels.com/photo/weisses-und-graues-chevron-druckrezeptbuch-833109/</div></section>
+					<section class="black-text align-right" data-background-image="images/pexels-isaiah-56332-833109.jpg" data-background-opacity=".4"><h2>Overview</h2><div class="image-copyright absolute">Photo by Isaiah : https://www.pexels.com/photo/weisses-und-graues-chevron-druckrezeptbuch-833109/</div></section>
 					<section>
 						<h3>The problem: Distributions</h3>
 						<ul>
@@ -122,12 +123,16 @@
 							<li>Instructions on how to configure a Drupal site</li>
 							<li>No lifecycle: Recipes are <em>applied</em>, not installed</li>
 							<li>Declarative, not functional: YAML, not PHP</li>
-							<li>Still experimental/work in progress</li>
 						</ul>
 						<p></p>
 					</section>
 					<section>
-						<h3>No lifecycle</h3>
+						<h3>Status</h3>
+						<ul>
+						<li>In Drupal core since 10.2</li>
+						<li>Actively being worked on</li>
+						<li>Still experimental/work in progress</li>
+						</ul>
 					</section>
 				</section>
 
@@ -169,9 +174,17 @@
 					<section class="black-text align-left" data-background-image="images/pexels-conojeghuo-175754.jpg" data-background-opacity=".4"><h2>Using recipes</h2><div class="image-copyright absolute">Photo by Clem Onojeghuo: https://www.pexels.com/photo/auf-wok-sautiertes-gemuse-175754/</div></section>
 					<section>
 						<h3>Add a recipe to your site</h3>
-						<p>Recipes are stored in a new top-level /recipe folder, typically outside of the web root</p>
+						<p>Recipes are stored in a new top-level /recipes folder, typically outside of the web root</p>
 						<pre><code>composer require drupal/drupal_cms_page</code></pre>
-						<p>Note: For existing sites, make sure you use latest composer/installers / update your composer.json config from the recommended template</p>
+						<div class="r-frame">
+							Note: For existing sites, make sure you use latest composer/installers / update your composer.json config from the recommended template
+							<pre><code data-trim>
+						"installer-paths": {
+								...
+								"recipes/{$name}": ["type:drupal-recipe"],
+						},
+					</code></pre>
+						</div>
 					</section>
 					<section>
 						<h3>Apply a recipe using CLI</h3>
@@ -242,7 +255,7 @@
 								import:
 							    node:
 							      - node.type.page
-							    menu_ink_content: *
+							    menu_link_content: *
 
 						</code></pre>
 					</section>
@@ -274,26 +287,48 @@
 							core.entity_view_display.node.page.default.yml
 							core.entity_view_display.node.page.teaser.yml
 							field.field.node.page.field_content.yml
-							field.field.node.page.field_description.yml
-							field.field.node.page.field_featured_image.yml
-							field.field.node.page.field_tags.yml
 							field.field.node.page.layout_builder__layout.yml
 							node.type.page.yml
 							pathauto.pattern.page_content.yml
 						</code></pre>
 
+						<p class="r-frame">Reminder: Remove uuid and _core keys</p>
+
 					</section>
 					<section>
 						<h3>Default content</h3>
 						<p>Export with drush commands from the default_content project</p>
-						<pre><code class="language-bash" data-trim data-line-numbers="1|2-4|5-6">
-							$ ddev drush dcer --folder=../recipes/my_recipe/content node 4
+						<pre><code class="language-bash" data-trim data-line-numbers="1-2|3|4-6|7-8">
+							$ composer require drupal/default_content
+							$ drush en default_content
+							$ drush dcer --folder=../recipes/my_recipe/content node 4
 							node/ce429bd2-2a91-48cf-9890-8b7bea56de52.yml
 							media/9f589217-c3bd-41eb-a0b5-7e8b6cd0e80b.yml
 							taxonomy_term/d48adeba-e388-4e82-820b-98bbd2f35a46.yml
 							file/DrupalCon-Barcelona-2024 - credit-Bram-Driesen.jpg
 							file/4bb02092-717b-44c8-9147-be3821c244c6.yml
 						</code></pre>
+						<p></p>
+					</section>
+					<section>
+						<h3>Inputs</h3>
+						<p>Example drupal_cms_google_analytics</p>
+						<pre><code class="language-bash" data-trim data-line-numbers="1-7|8-13">
+							input:
+								property_id:
+									data_type: string
+									prompt:
+										method: ask
+							    form:
+							      '#type': textfield
+							  actions:
+									google_tag.container.drupal:
+										set:
+											property_name: tag_container_ids
+											value:
+												- ${property_id}
+						</code></pre>
+
 					</section>
 				</section>
 				<section>
@@ -313,17 +348,77 @@
 						<h3>Strict mode</h3>
 						<p>In strict module, a recipe can only be enabled if the configuration it provides does not exist yet or is an exact match.</p>
 						<p>Currently enabled by default: <a href="https://www.drupal.org/project/drupal/issues/3478669">drupal.org/i/3478699</a>.</p>
-						<p>Challenges: Dependencies, Config additions in core (re-apply tests, redirect).</p>
+						<p>Reason: Config dependency conflicts, e.g. mismatching type between field and field storage</p>
 					</section>
 					<section>
-						<h3>Modules default configuration</h3>
-						<p>Behaves like config deployment, modules installed only with simple config</p>
-						<p>examples: mixed with strict, required config, umami/paragraphs_demo</p>
+						<h3>Strict challenges: Dependencies</h3>
+						<ol>
+							<li>Apply Recipe A: News</li>
+							<li>Add a field to News node type</li>
+							<li>Apply Recipe B that depends on A</li>
+							<li>Error</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Strict challenges: Core changes</h3>
+						<p>Open bug report against redirect module</p>
+						<ol>
+							<li>Your recipe/module provides a view</li>
+							<li>Drupal core adds a new option for a field plugin, automatically sets default of that</li>
+							<li>Installed config no longer matches recipe</li>
+							<li>Reapply the recipe</li>
+							<li>Error</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Strict mode: Solution?</h3>
+						<p>Short term: disable strict mode or only use for field storages</p>
+						<p>Long term: Better config validation, fields should ensure the storage has a matching type</p>
+					</section>
+					<section>
+						<h3>Module configuration</h3>
+						<p>Like config deployment: Modules installed only with simple config. Alternative to install profile config overrides</p>
+						<ul>
+							<li>Recipes do not own module configuration</li>
+							<li>Different result if the module is already installed</li>
+							<li>Modules might rely on their config: default language, node_add_body()</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Module configuration: Solution?</h3>
+						<p>Long term alternative: Modules should only ship required/minimal config, use optional/recipes for opinionated/example configuration</p>
 					</section>
 					<section>
 						<h3>No optional/conditional configuration</h3>
 						<p>Modules have an optional config folder, that is only installed if all dependencies are met. Recipes don't.</p>
 						<p>Use case: Multilingual, ship content settings if site is multilingual</p>
+					</section>
+					<section>
+						<h3>Dependency expansion</h3>
+						<p>Removing a module that a recipe no longer depends on will remove that from existing sites that might have it installed.</p>
+						<p>Solution: Drupal will expand recipe dependencies and add them directly to composer.json</p>
+					</section>
+				</section>
+
+				<section>
+					<section><h2>Drupal CMS & recipes</h2><p>A short look under the hood</p><img src="images/drupal-cms.png"></section>
+					<section>
+						<h3>Automated subtree split</h3>
+						<p>Development happens in drupal.org/project/drupal_cms</p>
+						<p>Gitlab CI Job then subtree-splits into dedicated drupal.org project for each recipe</p>
+						<p>Similar to Symfony project</p>
+						<p>Results in installable recipes that are put in /recipes folder</p>
+						<p>Might be supported for all projects in the future?</p>
+					</section>
+					<section>
+						<h3>Provides a custom olivero subtheme</h3>
+						<p>Recipes can not provide CSS/Templates</p>
+						<p>Adds some styling for specific provided recipes</p>
+						<p>Will be replaced with a dedicated Drupal CMS theme later</p>
+					</section>
+					<section>
+						<h3>Recipe project browser</h3>
+						<p>Currently limited to local recipes and locked down to specific Drupal CMS recipes.</p>
 					</section>
 				</section>
 
@@ -340,6 +435,7 @@
 			Reveal.initialize({
 				hash: true,
 				center:false,
+				slideNumber: 'c/t',
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
