@@ -90,7 +90,7 @@
 						<li>Creating recipes</li>
 						<li>Limitations, Caveats, Learnings</li>
 						<li>Drupal CMS & recipes</li>
-						<li>How Paragraphs plans to use recipes</li>
+						<li>Paragraphs & recipes</li>
 					</ul>
 				</section>
 
@@ -147,7 +147,12 @@
 						<h3>Dependencies</h3>
 						<ul>
 							<li>Recipes can depend on modules and other recipes</li>
-							<li>Limited discovery: Same folder + core for recipes, no "subrecipes"</li>
+							<li>Limited discovery
+							<ul>
+								<li>Same folder + core for recipes</li>
+								<li>No "subrecipes"</li>
+								<li>No recipes within module projects</li>
+							</ul></li>
 						</ul>
 						<p></p>
 					</section>
@@ -156,17 +161,21 @@
 						<p>Essentially like a module, a recipe can provide any number of configuration entities.</p>
 					</section>
 					<section>
-						<h3>Recipe content</h3>
-						<p>Based on the format and API of the default_content project.</p>
-						<p>Any Content entity can be exported into a YAML format.</p>
-						<p>Use cases: Example content for distributions, Initial content for custom projects</p>
-						<p>Note: Exporter is not yet in core, use default_content drush commands</p>
+						<h3>Default content</h3>
+						<ul>
+							<li>Based on the format and API of the default_content project.</li>
+							<li>Any Content entity can be exported into a YAML format.</li>
+							<li>Use cases: Example content for distributions, Initial content for custom projects</li>
+							<li>Note: Exporter is not yet in core, use default_content drush commands</li>
+						</ul>
 					</section>
 					<section>
 						<h3>Config actions</h3>
-						<p>Making changes to existing configuration</p>
-						<p>Examples: Add components to form/view displays, enable content moderation, add to text formats</p>
-						<p>This is the replacement to hook_install() in modules</p>
+						<ul>
+							<li>Make changes to existing configuration</li>
+							<li>Examples: Add components to form/view displays, enable content moderation, add to text formats</li>
+							<li>This is the replacement to hook_install() in modules</li>
+						</ul>
 					</section>
 					<section>
 						<h3>Inputs</h3>
@@ -175,7 +184,7 @@
 					</section>
 					<section>
 						<h3>Recipes vs. Modules</h3>
-						<img src="images/venn.svg" alt="Venn diagramm of Recipes and modules">
+						<img src="images/venn.svg" alt="Venn diagram of recipes and modules">
 					</section>
 				</section>
 
@@ -367,7 +376,6 @@
 				<section>
 					<section class="black-text align-left" data-background-image="images/pexels-karolina-grabowska-6659864.jpg"
 									 data-background-opacity=".4"><h2>Limitations, Caveats, Learnings</h2>
-						<p>(may contain personal opinions)</p>
 						<div class="image-copyright absolute">Photo By: Kaboompics.com: https://www.pexels.com/photo/a-close-up-photo-of-a-person-slicing-a-banana-6659864/
 						</div>
 					</section>
@@ -426,11 +434,12 @@
 						<h3>No optional/conditional configuration</h3>
 						<p>Modules have an optional config folder, that is only installed if all dependencies are met. Recipes don't.</p>
 						<p>Use case: Multilingual, ship content settings if site is multilingual</p>
+						<p>More detailed thoughts in Drupal CMS Multilingual issue: <a href="https://drupal.org/i/3485172">#3485172</a></p>
 					</section>
 					<section>
-						<h3>Dependency expansion</h3>
+						<h3>Composer Dependencies</h3>
 						<p>Removing a module that a recipe no longer depends on will remove that from existing sites that might have it installed.</p>
-						<p>Solution: Drupal will expand recipe dependencies and add them directly to composer.json</p>
+						<p>Solution: Drupal will "unpack" recipe dependencies and add them directly to composer.json <a href="https://www.drupal.org/project/drupal/issues/3355485">#3355485</a></p>
 					</section>
 				</section>
 
@@ -438,18 +447,22 @@
 					<section><h2>Drupal CMS & recipes</h2><p>A quick look under the hood</p><img src="images/drupal-cms.png"></section>
 					<section>
 						<h3>Automated subtree split</h3>
-						<p>Development happens in drupal.org/project/drupal_cms</p>
-						<p>Gitlab CI Job then subtree-splits into dedicated drupal.org project for each recipe</p>
-						<p>Similar to Symfony project</p>
-						<p>Results in installable recipes that are put in /recipes folder</p>
-						<p>Might be supported for all projects in the future?</p>
+						<ul>
+							<li>Development happens in drupal.org/project/drupal_cms</li>
+							<li>Gitlab CI Job then subtree-splits into dedicated drupal.org project for each recipe</li>
+							<li>Similar to Symfony project</li>
+							<li>Results in installable recipes that are put in /recipes folder</li>
+							<li>Might be supported for all projects in the future?</li>
+						</ul>
 					</section>
 					<section>
 						<h3>Provides a custom olivero subtheme</h3>
-						<p>Recipes can not provide CSS/Templates</p>
-						<p>Adds some styling for specific provided recipes</p>
-						<p>Will be replaced with a dedicated Drupal CMS theme later</p>
-						<p>Idea: Standalone Single Directory Components (SDC)?</p>
+						<ul>
+							<li>Recipes can not provide CSS/Templates</li>
+							<li>Adds some styling for specific provided recipes</li>
+							<li>Will be replaced with a dedicated Drupal CMS theme later</li>
+							<li>Idea: Standalone Single Directory Components (SDC)?</li>
+						</ul>
 					</section>
 					<section>
 						<h3>Recipe project browser</h3>
@@ -463,14 +476,15 @@
 					<section>
 						<h3>Paragraphs Demo</h3>
 						<p>Paragraphs comes with a demo module that creates some example multilingual paragraph types, content and search integration.</p>
-						<p>Sole purpose is throwaway demo sites</p>
-						<p>Idea: Convert to multiple recipes that can be used as a starting point for real sites as well</p>
+						<p>Sole purpose is throwaway demo sites.</p>
+						<p>Idea: Convert to multiple recipes that can be used as a starting point for real sites as well.</p>
 						<p><a href="https://drupal.org/i/3486479">#3486479</a></p>
 					</section>
 					<section>
 						<h3>Challenges: Limited UI/Exposure</h3>
 						<p>A module can be installed through the UI with Drupal core</p>
 						<p>A recipe requires drush commands or project_browser (will be in core)</p>
+						<p>Currently not a good fit for the target audience</p>
 					</section>
 					<section>
 						<h3>Challenges: A module is still required</h3>
@@ -500,7 +514,7 @@
 						<li>Potential to ease onboarding for new users</li>
 						<li>Completely sidestepping the update problem is an interesting option</li>
 						<li>But: Dealing with existing sites remains the hard part for a distribution, see <a href="https://www.drupal.org/project/cms/releases/1.0.1">Drupal CMS 1.0.1</a></li>
-						<li>Benefits for us currently not clear enough to refactor our product</li>
+						<li>Benefits for us currently not clear enough to refactor our existing product</li>
 					</ul>
 				</section>
 
