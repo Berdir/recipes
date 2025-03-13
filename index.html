@@ -99,6 +99,8 @@
 					<ul>
 						<li><a href="https://git.drupalcode.org/project/distributions_recipes/-/tree/1.0.x/docs">project/distribution_recipes docs</a></li>
 						<li><a href="https://git.drupalcode.org/project/drupal_cms">drupal_cms code repository</a></li>
+						<li><a href="https://www.drupal.org/project/distributions_recipes/issues/3446089">Recipes Meta Phase 2 #3446089</a></li>
+
 						<li>For questions: #recipes on Drupal Slack</li>
 					</ul>
 				</section>
@@ -180,7 +182,7 @@
 					<section>
 						<h3>Inputs</h3>
 						<p>Recipes can define required input and use it within the Recipe</p>
-						<p>Example: The Google Analytics Drupal CMS recipe requires a Google Tag ID</p>
+						<img src="images/input_google_analytics.png" alt="UI of applying a recipe with inputs" />
 					</section>
 					<section>
 						<h3>Recipes vs. Modules</h3>
@@ -388,7 +390,7 @@
 					<section>
 						<h3>Strict mode</h3>
 						<p>In strict module, a recipe can only be enabled if the configuration it provides does not exist yet or is an exact match.</p>
-						<p>Currently enabled by default: <a href="https://www.drupal.org/project/drupal/issues/3478669">drupal.org/i/3478699</a>.</p>
+						<p>Initially always strict, currently strict by default: <a href="https://www.drupal.org/project/drupal/issues/3478669">drupal.org/i/3478699</a>.</p>
 						<p>Reason: Config dependency conflicts, e.g. mismatching type between field and field storage</p>
 					</section>
 					<section>
@@ -421,14 +423,20 @@
 						<ul>
 							<li>Like config deployment: Modules installed only with simple config</li>
 							<li>Alternative to install profile config overrides</li>
-							<li>Recipes do not own module configuration</li>
-							<li>Different result if the module is already installed</li>
-							<li>Modules might rely on their config: default language, node_add_body()</li>
+							<li>
+								Problems
+								<ul>
+									<li>Recipes do not own module configuration</li>
+									<li>Different result if the module is already installed</li>
+									<li>Modules might rely on their config: default language, node_add_body()</li>
+									<li>More likely to break as modules extend their config</li>
+								</ul>
+							</li>
 						</ul>
 					</section>
 					<section>
 						<h3>Module configuration: Solution?</h3>
-						<p>Long term alternative: Modules should only ship required/minimal config, use optional/recipes for opinionated/example configuration</p>
+						<p>Long term alternative: Modules should only ship required/minimal config, use optional/recipes for opinionated/example configuration. Maybe a new config/recommended?</p>
 					</section>
 					<section>
 						<h3>No optional/conditional configuration</h3>
